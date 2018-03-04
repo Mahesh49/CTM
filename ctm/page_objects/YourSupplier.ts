@@ -3,6 +3,14 @@ import { element, by } from 'protractor';
 
 export class YourSupplier extends CommonPage {
 
-    public setPostcode = element(by.css("input"));;
-    public clickPostcode = element(by.cssContainingText("button", "Find postcode"));
+    private postcodeElement = "input";
+    public postcodeButton = "Find postcode";
+    public postcode = "PE2 6YS";
+    public comapareGasElectricity = ".energy-gas-electricity";
+    public comapareGas = ".energy-gas";
+    public comapareElectricity = ".energy-electricity";
+
+    public setPostcode(){
+        return element(by.css(this.postcodeElement));
+    }
 }
