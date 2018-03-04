@@ -3,23 +3,27 @@ import { browser, $, by, element, protractor } from "protractor";
 let chai = require("chai").use(require("chai-as-promised"));
 let expect = chai.expect;
 import { Utils } from "../../utils";
+import { YourSupplier } from "../page_objects/YourSupplier";
+import { YourResults } from "../page_objects/YourResults";
+import { YourEnergy } from "../page_objects/YourEnergy";
+import { YourDetails } from "../page_objects/YourDetails.";
 
 @binding()
-class YourSupplier {
+class WhenSteps {
     private utils: Utils = new Utils();
+    private yourSupplier: YourSupplier = new YourSupplier();
+    private yourResults: YourResults = new YourResults();
+    private yourEnergy: YourEnergy = new YourEnergy();
+    private yourDetails: YourDetails = new YourDetails();
 
     @when(/^I enter "([^"]*)" into input field$/)
     public iEnterTextIntoInputField(arg1: string, callback) {
        var EC = protractor.ExpectedConditions;
        browser.wait(EC.presenceOf($("input")), 5000);
-       browser.driver.findElement(by.css("input")).sendKeys(arg1).then(callback);
+       this.utils.sendText(this.yourSupplier.setPostcode, arg1, callback);
     }
 
-    @when(/^I enter "([^"]*)" in to the email field$/)
-    public enterEmail(arg1: string, callback: Function) {
-        this.utils.sendText(element(by.css('[type="email"]')), arg1, callback);
-    }
-
+    
     @when(/^I click on "([^"]*)" button$/)
     public clickOnbutton (arg1, callback: Function): void {
         this.utils.clickButton(arg1, callback);
@@ -30,11 +34,7 @@ class YourSupplier {
         this.utils.clickText(arg1, callback);
     }
 
-    @when(/^I click span "([^"]*)"$/)
-    public Clickspan (arg1, callback: any): void {
-        this.utils.clickText(arg1, callback, "span");
-    }
-
+    
     @given(/^I click on "([^"]*)" option$/)
     public iClickonOption (arg1, callback): void {
          this.utils.clickBySelector(arg1, callback);
@@ -42,21 +42,21 @@ class YourSupplier {
 
     @given(/^I enter "([^"]*)" into input field using id1$/)
        public iEnterGaS (arg1, callback): void {
-         this.utils.sendText(element(by.css('#gas-usage')), arg1, callback);
+         this.utils.sendText(this.yourEnergy.setGas, arg1, callback);
        }
      
      @given(/^I enter "([^"]*)" into input field using id$/)
        public iEnterElectricity (arg1, callback): void {
-         this.utils.sendText(element(by.css('#electricity-usage')), arg1, callback);
+         this.utils.sendText(this.yourEnergy.setElectricity, arg1, callback);
        }
 
        @given(/^I enter "([^"]*)" into input field using id2$/)
        public iEnterEmail (arg1, callback): void {
-         this.utils.sendText(element(by.css('#Email')), arg1, callback);
+         this.utils.sendText(this.yourDetails.setEmailAddress, arg1, callback);
        }
 
 
 
 
 }
-export = YourSupplier;
+export = WhenSteps;
