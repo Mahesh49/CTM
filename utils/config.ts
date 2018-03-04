@@ -5,7 +5,7 @@ export class Config {
     public stabalizationDelay = 1000;
     private static instance: Config;
 
-    constructor () {
+    constructor() {
         if (Config.instance) {
             return Config.instance;
         }
@@ -18,7 +18,7 @@ export class Config {
      * @param prop property which to return
      * @return property or null
      **/
-    public get(prop : string) {
+    public get(prop: string) {
         if (!!this[prop]) {
             return this[prop];
         };
@@ -32,7 +32,7 @@ export class Config {
      * @param prop val data you which to store against the property
      * @return void
      **/
-    public set(prop : string, val) : void {
+    public set(prop: string, val): void {
         this[prop] = val;
     }
 }

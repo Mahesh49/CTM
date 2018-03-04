@@ -23,17 +23,17 @@ exports.config = {
         }
     },
     cucumberOpts: {
-        require: ['../build/step_definitions/*.js','../build/ctm/step_definitions/*.js', '../setup.js', '../report.js'],
+        require: ['../build/step_definitions/*.js', '../build/ctm/step_definitions/*.js', '../setup.js', '../report.js'],
         format: 'pretty',
         tags: ['~@ignore', '@smoke'],
         profile: false,
         'no-source': true,
         keepAlive: false
-  },
+    },
     params: {
         testName: 'ctm',
         isMobileWebTest: false,
-        isAppTest : false,
+        isAppTest: false,
         resolutions: {
             small: {
                 w: 320,

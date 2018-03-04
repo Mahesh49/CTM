@@ -7,7 +7,5 @@ import { Utils } from "../../utils";
 @binding()
 class YourSupplier {
     private utils: Utils = new Utils();
-
-    
 }
 export = YourSupplier;
