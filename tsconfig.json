@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "removeComments": true,
+        "outDir": "build",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata" : true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}

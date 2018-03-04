@@ -1,0 +1,32 @@
+{
+  "name": "automated-testing-bgl",
+  "version": "1.0.0",
+  "description": "This repo contains the automated testing for ctm",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mahesh49/Bgl.git"
+  },
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "cucumber": "^1.3.3",
+    "cucumber-html-report": "0.4.4",
+    "cucumber-tsflow": "^1.1.2",
+    "fs-extra": "^4.0.2",
+    "protractor": "5.2.1",
+    "protractor-cucumber-framework": "^4.1.1",
+    "q": "^1.5.1",
+    "request": "^2.83",
+    "typescript": "2.6.2",
+    "wd": "^1.4.1",
+    "wd-bridge": "^0.0.2"
+  },
+  "scripts": {
+    "web-smoke:ctm": "tsc && protractor ./ctm/web-smoke.js",
+    "selenium": "webdriver-manager start",
+    "update": "webdriver-manager update",
+    "clean": "webdriver-manager clean"
+  },
+  "author": "",
+  "license": "ISC"
+}
