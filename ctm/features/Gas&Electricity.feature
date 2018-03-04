@@ -1,4 +1,4 @@
-@smoke
+@smoke1
 Feature: Gas & Electricity - Quotes
 As a Compare the Market cutomer
 I want to be able to get quotes for Gas & Electricity
