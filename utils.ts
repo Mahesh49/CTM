@@ -12,8 +12,10 @@ export class Utils {
         this.screenshot.prepareFolders().then(function () {
             browser.ignoreSynchronization = false;
             var url = browser.baseUrl;
-            browser.get(url).then(function () {
-                defferred.fulfill();
+            browser.manage().deleteAllCookies().then(function () {
+               browser.get(url).then(function () {
+                  defferred.fulfill();
+               });
             });
         });
         return defferred.promise;
