@@ -1,6 +1,5 @@
 var Cucumber = require('cucumber');
 var fs = require('fs');
-var ssReport = require('./build/utils/screenshotReport').ScreenshotReport;
 
 module.exports = function () {
   var createHtmlReport = function (sourceJson, browserName, os) {
@@ -33,10 +32,7 @@ module.exports = function () {
           console.log('Failed to save cucumber test results to json file.');
           console.log(err);
         } else {
-          let ssreportGen = new ssReport();
-          ssreportGen.generateReport().then(() => {
-            createHtmlReport(targetJson, browserName, os);
-          });
+             createHtmlReport(targetJson, browserName, os);
         }
       });
     });
