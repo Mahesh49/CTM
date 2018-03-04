@@ -47,17 +47,9 @@ export class Utils {
     private takeWebSS(imageNameArg: string, journeyName: string, callback) {
         var promises = [];
         for (var displaySize in this.resolutions) {
-            this.screenshot.setBrowserSize(displaySize);
-            // Disable gifs, video, and css animations  to make sure the screen shots more reliable
-            this.screenshot.setGifsVisibility(false);
-            this.screenshot.setVideoVisibility(false);
-            this.screenshot.removeCssAnimations();
             promises.push(this.screenshot.doTakeSS(imageNameArg, journeyName, displaySize));
         }
         protractor.promise.all(promises).then(() => {
-            this.screenshot.setBrowserSize();
-            this.screenshot.setGifsVisibility(true);
-            this.screenshot.setVideoVisibility(true);
             callback();
         });
     }

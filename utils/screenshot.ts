@@ -8,13 +8,10 @@ declare var wdBrowser;
  */
 export class Screenshot {
     private screensCount = 0;
-    private defaultResolution = "large";
     private folderRunKey = "HasRunPrepareFolders";
-    private resolutions;
     private config;
 
     constructor() {
-        this.resolutions = browser.params.resolutions;
         this.config = new Config();
     }
 
@@ -34,48 +31,17 @@ export class Screenshot {
     public prepareFolders() {
         var promise = protractor.promise.defer();
         if (!this.config.get(this.folderRunKey)) {
-            var testName = browser.params.testName;
             var self = this;
             var opS;
             var browserName;
 
             browser.getProcessedConfig().then(function (data) {
-                if (browser.params.isAppTest) {
-                    opS = data.capabilities.platformName;
-                    browserName = data.capabilities.deviceName;
-                } else {
                     opS = self.getOperatingSystem();
                     browserName = data.capabilities.browserName;
-                }
                 self.config.set("opS", opS);
                 self.config.set("browserName", browserName);
-                self.config.set("testName", testName);
-                [{
-                    name: "testImagesFolder",
-                    path: "/test-assets/",
-                }, {
-                    name: "diffImagesFolder",
-                    path: "/diff-assets/"
-                }, {
-                    name: "refImagesFolder",
-                    path: "/ref-assets/"
-                }].forEach(function(folderMeta, i) {
-                    self.config.set(folderMeta.name, "./reports" + folderMeta.path + testName  + "/" + opS + "/" + browserName + "/" );
-                    fs.mkdirs(self.config.get(folderMeta.name), function (err) {
-                        if (err) {
-                            return console.error(err);
-                        }
-                    });
-
-                    for (var displaySize in this.resolutions) {
-                        self.defaultResolution = displaySize;
-                    }
-                }.bind(self));
-
                 protractor.promise.all([
                     fs.emptyDir("./reports/" + opS + "/" + browserName),
-                    fs.emptyDir("./reports/diff-assets/" + testName +  "/" + opS + "/" + browserName),
-                    fs.emptyDir("./reports/test-assets/" + testName + "/" + opS + "/" + browserName )
                 ]).then(() => {
                     promise.fulfill();
                 },
@@ -133,76 +99,6 @@ export class Screenshot {
             var decodedImage = new Buffer(png.replace(/^data:image\/(png|gif|jpeg);base64,/, ""), "base64");
             scenario.attach(decodedImage, "image/png");
             callback();
-        });
-    }
-
-    /**
-     * @method Screenshot#setGifsVisibility
-     * @desc show or hide .gif images
-     * @param show boolean true for visible false for hidden
-     * @return void
-     */
-    public setGifsVisibility(show: boolean) {
-        var propertyValue = !show ? "hidden" : "visible";
-        browser.executeScript(
-            'for(var images=document.images,imageLength=images.length,i=0;imageLength>i;i++)images[i].src.endsWith(".gif")&&(images[i].style.visibility="%propertyValue%");'
-                .replace("%propertyValue%", propertyValue));
-    }
-
-    /**
-     * @method Screenshot#setVideoVisibility
-     * @desc show or hide . images
-     * @param show boolean true for visible false for hidden
-     * @return void
-     */
-    public setVideoVisibility(show: boolean) {
-        var propertyValue = !show ? "hidden" : "visible";
-        browser.executeScript(
-            'for(var videos=document.getElementsByTagName("video"),videosLength=videos.length,i=0;videosLength>i;i++)(videos[i].style.visibility="%propertyValue%");'
-                .replace("%propertyValue%", propertyValue));
-    }
-
-    /**
-     * @method removeCssAnimations
-     * @desc remove CSS animattion while screen shot testing
-     * @param none
-     * @return void
-     */
-    public removeCssAnimations() {
-        browser.executeScript(this.disableCSSAnimations);
-    }
-
-    /**
-     * @method disableCSSAnimations
-     * @desc remove CSS animattion while screen shot testing
-     * @param none
-     * @return void
-     */
-    private disableCSSAnimations() {
-        var css = '* {' +
-          '-webkit-transition-duration: 0s !important;' +
-          'transition-duration: 0s !important;' +
-          '-webkit-animation-duration: 0s !important;' +
-          'animation-duration: 0s !important;' +
-
-          '}',
-          head = document.head || document.getElementsByTagName('head')[0],
-          style = document.createElement('style');
-
-          style.type = 'text/css';
-          style.appendChild(document.createTextNode(css));
-          head.appendChild(style);
-    }
-
-    /**
-     * @method Screenshot#setBrowserSize
-     * @desc change the browser size
-     * @param screenName recognised screename set in the conf.js usally small medium or large
-     * @return void
-     */
-    public setBrowserSize(screenName = this.defaultResolution): void {
-        browser.driver.manage().window().setSize(this.resolutions[screenName].w, this.resolutions[screenName].h).then(function () {
-            return browser.executeScript("window.scrollTo(0, 0)");
         });
     }
 }
