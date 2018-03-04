@@ -1,18 +1,17 @@
-import { binding, given, then, when , before, after} from "cucumber-tsflow";
-import { browser, $, element, protractor, by } from "protractor";
-import { Utils } from "../utils";
-import { Config } from "../utils/config";
+import { binding, given, then, when, before, after } from "cucumber-tsflow";
+import { browser, by, element, protractor } from "protractor";
 let chai = require("chai").use(require("chai-as-promised"));
 let expect = chai.expect;
-@binding()
-class GeneralSteps {
+import { Utils } from "../../utils";
 
-    private utils: Utils;
-    private config = new Config();
-    
+@binding()
+class CommonSteps {
+    private utils: Utils = new Utils();
+
     @before()
     public beforeEachScenario (scen, callback: Function): void {
         this.utils = new Utils();
+        browser.restart();
         this.utils.init().then(callback);
     }
 
@@ -27,5 +26,4 @@ class GeneralSteps {
         }
     }
 }
-
-export = GeneralSteps;
+export = CommonSteps;
