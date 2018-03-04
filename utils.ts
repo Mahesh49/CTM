@@ -1,27 +1,11 @@
-import { browser, protractor, $, element, by, ElementFinder, ElementHelper, ElementArrayFinder, WebElementPromise, WebDriver } from 'protractor';
+import { browser, protractor, $, element, by, ElementFinder, ElementHelper, ElementArrayFinder, WebElementPromise } from 'protractor';
 import { Screenshot } from './utils/screenshot';
-import { Config } from './utils/config';
 let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
-declare var wdBrowser;
-var until = require('selenium-webdriver').until;
 
 export class Utils {
-    private resolutions;
-    public screenshot: Screenshot;
-    public config: Config;
+    public screenshot: Screenshot = new Screenshot();
 
-    constructor() {
-        this.resolutions = browser.params.resolutions;
-        this.screenshot = new Screenshot();
-        this.config = new Config();
-    }
-
-    /**
-     * @method init
-     * @desc initialise utils for a journey/scenario/feature
-     * @param callback
-     */
     public init(): any {
         var self = this;
         var defferred = protractor.promise.defer();
@@ -36,30 +20,11 @@ export class Utils {
     }
 
     /**
-     * @method takeSS
-     * @desc take a screenshot (at all resolutions)
-     * @param imageNameArg the name of the screenshot
-     **/
-    public takeSS(imageNameArg: string, journeyName: string, callback): void {
-        this.takeWebSS(imageNameArg, journeyName, callback);
-    }
-
-    private takeWebSS(imageNameArg: string, journeyName: string, callback) {
-        var promises = [];
-        for (var displaySize in this.resolutions) {
-            promises.push(this.screenshot.doTakeSS(imageNameArg, journeyName, displaySize));
-        }
-        protractor.promise.all(promises).then(() => {
-            callback();
-        });
-    }
-
-    /**
      * @method clickText
      * @desc click the first element found that contains a specified bit of text
      * @param text
      * @param [type=p] selector
-     **/
+    **/
     public clickText(text, callback, type = "p", count = 0, context = undefined): void {
         this.waitToAppearThenClick(this.getElementHelper(type, text), callback, count, context);
     }
@@ -73,7 +38,7 @@ export class Utils {
      * @param text the text the element should contain
      * @param count if required
      * @param context if required
-     **/
+    **/
     public clickBySelector(selector: string, callback, text = undefined, count = 0, context = undefined): void {
         this.waitToAppearThenClick(this.getElementHelper(selector, text), callback, count, context);
     }
@@ -135,7 +100,6 @@ export class Utils {
         }
         return elm;
     }
-
 
     private waitToAppearThenClick(elm: ElementArrayFinder, callback, count = 0, context = undefined): void {
         let displayedElement = elm.filter((elem) => {
@@ -227,6 +191,4 @@ export class Utils {
             browser.executeScript("window.sessionStorage.clear();");
         });
     }
-
-
 }

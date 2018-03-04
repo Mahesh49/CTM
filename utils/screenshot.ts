@@ -1,7 +1,6 @@
 import { Config } from "./config";
 import { browser, protractor } from "protractor";
 let fs = require("fs-extra");
-declare var wdBrowser;
 
 /**
  * @class Screenshot
@@ -90,7 +89,6 @@ export class Screenshot {
                 });
             });
         });
-
         return deferred.promise;
     }
 

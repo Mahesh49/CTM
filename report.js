@@ -19,13 +19,8 @@ module.exports = function () {
     browser.getProcessedConfig().then(function (data) {
       var browserName
       var os;
-      if (browser.params.isAppTest) {
-        os = data.capabilities.platformName;
-        browserName = data.capabilities.deviceName;
-      } else {
         os = getOperatingSystem();
         browserName = data.capabilities.browserName;
-      }
       var targetJson = './reports/' + os + '/' + browserName + '/cucumber_report.json';
       fs.writeFile(targetJson, string, function (err) {
         if (err) {
