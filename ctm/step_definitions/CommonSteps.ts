@@ -11,7 +11,6 @@ class CommonSteps {
     @before()
     public beforeEachScenario(scen, callback: Function): void {
         this.utils = new Utils();
-        //browser.restart();
         this.utils.init().then(callback);
     }
 
