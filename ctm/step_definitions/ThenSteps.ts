@@ -7,11 +7,10 @@ import { Utils } from "../../utils";
 @binding()
 class YourSupplier {
     private utils: Utils = new Utils();
-    
+
     @then(/^I should see "([^"]*)" button$/)
-    public IShouldSeeCheckoutButton (arg1, callback): void {
-       this.utils.isPresent(element(by.cssContainingText("span", arg1)), callback);
+    public IShouldSeeCheckoutButton(arg1, callback): void {
+        this.utils.isPresent(element(by.cssContainingText("span", arg1)), callback);
     }
-    
 }
 export = YourSupplier;

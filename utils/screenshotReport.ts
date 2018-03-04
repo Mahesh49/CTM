@@ -7,10 +7,8 @@ export class ScreenshotReport {
     private ops;
     private browserName;
     private testName;
-
-
     private config: Config = new Config();
-
+    
     public generateReport() {
         this.ops = this.config.get("opS");
         this.browserName = this.config.get("browserName");
@@ -18,8 +16,7 @@ export class ScreenshotReport {
         var deferred = Q.defer();
         var files = fs.readdirSync(this.config.get("diffImagesFolder"));
         var ssReportPath = "./reports/" + this.config.get("opS") + "/" + this.config.get("browserName") + "/screenshot.html";
-
-         files = files.filter(function(file) {
+        files = files.filter(function(file) {
             return file.substr(-4) === ".png";
         });
 

@@ -9,18 +9,18 @@ class CommonSteps {
     private utils: Utils = new Utils();
 
     @before()
-    public beforeEachScenario (scen, callback: Function): void {
+    public beforeEachScenario(scen, callback: Function): void {
         this.utils = new Utils();
         browser.restart();
         this.utils.init().then(callback);
     }
 
     @after()
-    public AfterEachScenario (scenario, callback): void {
+    public AfterEachScenario(scenario, callback): void {
         if (scenario.isFailed()) {
-                this.utils.screenshot.takeWebSS(scenario, () => {
-                    this.utils.clearStorage().then(callback);
-                    });
+            this.utils.screenshot.takeWebSS(scenario, () => {
+                this.utils.clearStorage().then(callback);
+            });
         } else {
             this.utils.clearStorage().then(callback);
         }

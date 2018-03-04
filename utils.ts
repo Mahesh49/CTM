@@ -8,10 +8,10 @@ var until = require('selenium-webdriver').until;
 
 export class Utils {
     private resolutions;
-    public screenshot : Screenshot;
-    public config : Config;
+    public screenshot: Screenshot;
+    public config: Config;
 
-    constructor () {
+    constructor() {
         this.resolutions = browser.params.resolutions;
         this.screenshot = new Screenshot();
         this.config = new Config();
@@ -22,13 +22,13 @@ export class Utils {
      * @desc initialise utils for a journey/scenario/feature
      * @param callback
      */
-    public init (): any {
+    public init(): any {
         var self = this;
         var defferred = protractor.promise.defer();
-        this.screenshot.prepareFolders().then(function() {
+        this.screenshot.prepareFolders().then(function () {
             browser.ignoreSynchronization = false;
-            var url =browser.baseUrl;
-            browser.get(url).then(function(){
+            var url = browser.baseUrl;
+            browser.get(url).then(function () {
                 defferred.fulfill();
             });
         });
@@ -40,8 +40,8 @@ export class Utils {
      * @desc take a screenshot (at all resolutions)
      * @param imageNameArg the name of the screenshot
      **/
-    public takeSS (imageNameArg: string, journeyName: string, callback) : void {
-            this.takeWebSS(imageNameArg, journeyName, callback);
+    public takeSS(imageNameArg: string, journeyName: string, callback): void {
+        this.takeWebSS(imageNameArg, journeyName, callback);
     }
 
     private takeWebSS(imageNameArg: string, journeyName: string, callback) {
@@ -68,7 +68,7 @@ export class Utils {
      * @param text
      * @param [type=p] selector
      **/
-    public clickText (text, callback, type = "p", count = 0, context = undefined): void {
+    public clickText(text, callback, type = "p", count = 0, context = undefined): void {
         this.waitToAppearThenClick(this.getElementHelper(type, text), callback, count, context);
     }
 
@@ -82,7 +82,7 @@ export class Utils {
      * @param count if required
      * @param context if required
      **/
-    public clickBySelector(selector: string, callback, text = undefined, count = 0, context = undefined) : void {
+    public clickBySelector(selector: string, callback, text = undefined, count = 0, context = undefined): void {
         this.waitToAppearThenClick(this.getElementHelper(selector, text), callback, count, context);
     }
 
@@ -93,7 +93,7 @@ export class Utils {
      * @param callback
      * @param count if required
      **/
-    public clickElement(elem: ElementFinder, callback, count = 0) : void {
+    public clickElement(elem: ElementFinder, callback, count = 0): void {
         this.waitToAppearThenClick(element.all(elem.locator()), callback, count);
     }
 
@@ -102,7 +102,7 @@ export class Utils {
      * @desc click the button with this text
      * @param text the text the button should contain
      **/
-    public clickButton(text: string, callback) : void {
+    public clickButton(text: string, callback): void {
         this.waitToAppearThenClick(this.getElementHelper("button", text), callback);
     }
 
@@ -112,7 +112,7 @@ export class Utils {
      * @desc enters text in the input field
      * @param cssselector and text
      **/
-    public sendText (elm: ElementFinder, text: string, callback): void {
+    public sendText(elm: ElementFinder, text: string, callback): void {
         var promises = [];
         elm.sendKeys(text).then(() => {
             elm.getAttribute("value").then((value) => {
@@ -145,33 +145,33 @@ export class Utils {
     }
 
 
-    private waitToAppearThenClick (elm: ElementArrayFinder, callback, count = 0, context = undefined): void {
+    private waitToAppearThenClick(elm: ElementArrayFinder, callback, count = 0, context = undefined): void {
         let displayedElement = elm.filter((elem) => {
-              return elem.isDisplayed();
+            return elem.isDisplayed();
         });
         displayedElement.count().then((elmCount) => {
-          if (elmCount === 0) {
-            throw false;
-          } else {
-            displayedElement.first().click().then(() => {
-                callback();
-            });
-          }
-        })
-         .catch((e) => {
-            if (count === 4) {
-                let errorMessage = "element " + elm.locator() + " not found";
-                if (context) {
-                    errorMessage = "\nContext:\n" + context + "\nError: " + errorMessage;
-                }
-                expect(false, errorMessage).to.be.true;
+            if (elmCount === 0) {
+                throw false;
             } else {
-                count++;
-                browser.sleep(count * 400).then(() => {
-                    this.waitToAppearThenClick(elm, callback, count, context);
+                displayedElement.first().click().then(() => {
+                    callback();
                 });
             }
-         });
+        })
+            .catch((e) => {
+                if (count === 4) {
+                    let errorMessage = "element " + elm.locator() + " not found";
+                    if (context) {
+                        errorMessage = "\nContext:\n" + context + "\nError: " + errorMessage;
+                    }
+                    expect(false, errorMessage).to.be.true;
+                } else {
+                    count++;
+                    browser.sleep(count * 400).then(() => {
+                        this.waitToAppearThenClick(elm, callback, count, context);
+                    });
+                }
+            });
     }
 
     /**
@@ -182,35 +182,35 @@ export class Utils {
      * @param count if required
      * @param context if required
      **/
-    public isPresent (elm: ElementFinder, callback, throwsError = true, context = undefined, count = 0): void {
-         elm.isDisplayed().then((res) => {
+    public isPresent(elm: ElementFinder, callback, throwsError = true, context = undefined, count = 0): void {
+        elm.isDisplayed().then((res) => {
             if (res) {
-              callback();  //to-do: why callback(true) is failing
+                callback();  //to-do: why callback(true) is failing
             } else {
-              if (throwsError) {
-                throw false;
-              } else {
-                callback(false);
-              }
+                if (throwsError) {
+                    throw false;
+                } else {
+                    callback(false);
+                }
             }
-         }).catch((e) => {
-            if (count === 4){
-                 let errorMessage = "element " + elm.locator() + " not found";
+        }).catch((e) => {
+            if (count === 4) {
+                let errorMessage = "element " + elm.locator() + " not found";
                 if (context) {
                     errorMessage = "\nContext:\n" + context + "\nError: " + errorMessage;
                 }
                 if (throwsError) {
                     expect(false, errorMessage).to.be.true;
                 } else {
-                   callback(false);
-               }
+                    callback(false);
+                }
             } else {
                 ++count;
                 browser.sleep(count * 400).then(() => {
                     this.isPresent(elm, callback, throwsError, context, count);
                 });
             }
-         });
+        });
     }
 
     /**
@@ -222,7 +222,7 @@ export class Utils {
      * @param count if required
      * @param context if required
      **/
-    public isPresentBySelector(selector: string, callback, text = undefined, count = 0, context = undefined) : void {
+    public isPresentBySelector(selector: string, callback, text = undefined, count = 0, context = undefined): void {
         this.isPresent(this.getElementHelper(selector, text).first(), callback, true, context, count);
     }
 
@@ -230,8 +230,8 @@ export class Utils {
      * @method clearStorage
      * @desc Clear browser's local storage and session storage
      **/
-    public clearStorage () {
-        return browser.executeScript("window.localStorage.clear();").then (() => {
+    public clearStorage() {
+        return browser.executeScript("window.localStorage.clear();").then(() => {
             browser.executeScript("window.sessionStorage.clear();");
         });
     }
