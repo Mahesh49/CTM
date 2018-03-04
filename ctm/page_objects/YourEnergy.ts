@@ -3,6 +3,15 @@ import { element, by } from 'protractor';
 
 export class YourEnergy extends CommonPage {
 
-    public setElectricity = element(by.css("#electricity-usage"));
-    public setGas = element(by.css("#gas-usage"));
+    private electricity = "electricity-usage";
+    private gas = "gas-usage";
+
+    public setElectricity() {
+        return element(by.id(this.electricity));
+    }
+
+    public setGas() {
+        return element(by.id(this.gas));
+    }
+
 }

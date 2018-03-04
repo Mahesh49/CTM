@@ -1,5 +1,3 @@
-import { element, by } from "protractor";
-
 export class CommonPage {
-
+        public clickNext = "Next";
 }

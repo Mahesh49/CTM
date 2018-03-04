@@ -20,17 +20,6 @@ export class Utils {
     }
 
     /**
-     * @method clickText
-     * @desc click the first element found that contains a specified bit of text
-     * @param text
-     * @param [type=p] selector
-    **/
-    public clickText(text, callback, type = "p", count = 0, context = undefined): void {
-        this.waitToAppearThenClick(this.getElementHelper(type, text), callback, count, context);
-    }
-
-
-    /**
      * @method clickBySelector
      * @desc Click the selector provided
      * @param selector css selector of the element to click
@@ -44,17 +33,6 @@ export class Utils {
     }
 
     /**
-     * @method clickElement
-     * @desc Click the Element
-     * @param elem ElementFinder
-     * @param callback
-     * @param count if required
-     **/
-    public clickElement(elem: ElementFinder, callback, count = 0): void {
-        this.waitToAppearThenClick(element.all(elem.locator()), callback, count);
-    }
-
-    /**
      * @method clickButton
      * @desc click the button with this text
      * @param text the text the button should contain
@@ -62,7 +40,6 @@ export class Utils {
     public clickButton(text: string, callback): void {
         this.waitToAppearThenClick(this.getElementHelper("button", text), callback);
     }
-
 
     /**
      * @method sendText
@@ -88,8 +65,7 @@ export class Utils {
             });
         });
     }
-
-
+    
     private getElementHelper(selector, text = undefined) {
         var elm;
         if (text === undefined) {
@@ -128,58 +104,6 @@ export class Utils {
                     });
                 }
             });
-    }
-
-    /**
-     * @method isPresent
-     * @desc Given an element detemine wether it is currently displayed on the page
-     * @param elm the element to check is present
-     * @param callback
-     * @param count if required
-     * @param context if required
-     **/
-    public isPresent(elm: ElementFinder, callback, throwsError = true, context = undefined, count = 0): void {
-        elm.isDisplayed().then((res) => {
-            if (res) {
-                callback();  //to-do: why callback(true) is failing
-            } else {
-                if (throwsError) {
-                    throw false;
-                } else {
-                    callback(false);
-                }
-            }
-        }).catch((e) => {
-            if (count === 4) {
-                let errorMessage = "element " + elm.locator() + " not found";
-                if (context) {
-                    errorMessage = "\nContext:\n" + context + "\nError: " + errorMessage;
-                }
-                if (throwsError) {
-                    expect(false, errorMessage).to.be.true;
-                } else {
-                    callback(false);
-                }
-            } else {
-                ++count;
-                browser.sleep(count * 400).then(() => {
-                    this.isPresent(elm, callback, throwsError, context, count);
-                });
-            }
-        });
-    }
-
-    /**
-     * @method isPresentBySelector
-     * @desc Click the selector provided
-     * @param selector css selector of the element to check
-     * @param callback
-     * @param text the text the element should contain
-     * @param count if required
-     * @param context if required
-     **/
-    public isPresentBySelector(selector: string, callback, text = undefined, count = 0, context = undefined): void {
-        this.isPresent(this.getElementHelper(selector, text).first(), callback, true, context, count);
     }
 
     /**

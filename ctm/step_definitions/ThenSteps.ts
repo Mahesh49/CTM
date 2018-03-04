@@ -3,14 +3,19 @@ import { browser, by, element, protractor } from "protractor";
 let chai = require("chai").use(require("chai-as-promised"));
 let expect = chai.expect;
 import { Utils } from "../../utils";
+import { YourResults } from "../page_objects/YourResults";
 
 @binding()
-class YourSupplier {
+class ThenSteps {
     private utils: Utils = new Utils();
+    private yourResults: YourResults = new YourResults();
 
-    @then(/^I should see "([^"]*)" button$/)
-    public IShouldSeeCheckoutButton(arg1, callback): void {
-        this.utils.isPresent(element(by.cssContainingText("span", arg1)), callback);
+    @then(/^I should see supplier recommendations$/)
+    public IShouldSeeCheckoutButton(callback) {
+        this.yourResults.getSupplier().count().then((count) => {
+            expect(count).to.be.above(0);
+            callback();
+        });
     }
 }
-export = YourSupplier;
+export = ThenSteps;
