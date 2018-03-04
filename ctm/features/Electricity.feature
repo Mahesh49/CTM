@@ -15,7 +15,7 @@ Feature: Electricity Only - Quotes
      And I click on ".fixed-rate-1" option
      And I click on ".annual-1" option
      And I click on ".fixed-rate-1" option
-     Given I enter email "mahesh49021@gmail.com"
+     Given I enter "mahesh49021@gmail.com" into input field using id2
      And I click on ".single-check>span:nth-child(3)" option
      And I click on "#terms-label>span:nth-child(3)" option
      And I click on "Go to prices" button
