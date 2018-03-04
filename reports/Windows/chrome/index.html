@@ -1,0 +1,957 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Result', 'Number of scenarios'],
+          ['Failed',  1],
+          ['Passed',  2],
+        ]);
+
+        var options = {
+            colors: ['red','green']
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  <style type="text/css">
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #fff;
+      color: #282828;
+    }
+
+    .feature-navigator {
+      position: fixed;
+      overflow-y: auto;
+      height: 100%;
+      width: 20%;
+      float: left;
+    }
+
+    .report-container {
+      margin-left: 20%;
+      width: 75%;
+      float: left;
+    }
+
+    a, a:hover, a:visited {
+      color: #000;
+      text-decoration: none;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      background-color: #eee;
+      color: #999;
+      text-transform: capitalize;
+    }
+
+    th, td {
+      padding: 5px 10px;
+      border-bottom: rgba(162, 162, 162, 0.16) 1px solid;
+    }
+
+    tr.failed { cursor: pointer; }
+
+    tr.passed td { background-color: rgb(150, 250, 150); }
+    tr.failed td { background-color: rgb(250, 150, 150); }
+
+    td.status {
+      text-transform: capitalize;
+    }
+
+    .datatable {
+      margin-left: 2em;
+      width: auto;
+      border-width: 1pt;
+      margin-top: 0.6em;
+      font-size: 80%;
+    }
+    .datatable td {
+      border: rgba(162, 162, 162, 0.16) 1px solid;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 20px 10px 10px 10px;
+      color: #282828;
+    }
+
+    h2 {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+
+    h2.component {
+      color: #282828;
+      padding: 0 10px 10px 10px;
+    }
+
+    h3 { margin: 25px 0 10px 0; }
+
+    img {
+      max-width: 100%;
+      margin-top: 10px;
+      max-height: 800px;
+    }
+
+    .filename {
+      margin: 0 0 10px 0;
+      color: #999;
+    }
+
+    span.tags {
+      float: right;
+      font-size: 15px;
+      color: #888;
+    }
+
+    span.scenario-tag {
+      float: right;
+      font-size: 15px;
+      color: #888;
+      margin-left: 0.5em;
+    }
+
+    p.story {
+      font-size: 20px;
+      color: #888;
+      font-style: italic;
+      padding-left: 20px;
+    }
+
+    div.report {
+      width: 100%;
+      float: left;
+      padding: 10px;
+      background: #fff;
+      padding-bottom: 10px;
+    }
+
+    td.result,
+    .duration { text-align: right; }
+
+    .hidden { display: none; }
+
+    .header {
+      width: 100%;
+      float: left;
+    }
+
+    .summary,
+    .feature-list,
+    .scenario-list {
+      list-style-type: none;
+      margin: 0;
+      padding: 10px;
+    }
+
+    .summary li,
+    .feature-list li,
+    .scenario-list li { padding: 10px; }
+
+    .scenario-list li a { color: #999; }
+
+    .summary li { padding: 5px 10px; }
+
+    .feature-list li {
+      border-top: rgba(162, 162, 162, 0.16) 1px solid;
+      border-bottom: rgba(162, 162, 162, 0.16) 1px solid;
+    }
+
+    .scenario-list li { border: none; }
+
+    .scenario-list { padding: 10px 0; }
+
+    .summary li,
+    .feature-list li { font-weight: bold; }
+
+    .scenario-list li { font-weight: normal; }
+
+    .feature-list > li.passed { border-left: 5px solid rgb(150, 250, 150); }
+    .feature-list > li.failed { border-left: 5px solid rgb(250, 150, 150); }
+
+    .scenario-list > li.passed a { color: #999; }
+    .scenario-list > li.failed a { color: rgb(250, 150, 150); }
+
+    .summary span.OK  { color: rgb(150, 250, 150); }
+    .summary span.NOK { color: rgb(250, 150, 150); }
+
+    .footer {
+      color: #3C494C;
+      text-align: center;
+      padding: 20px 0;
+      float: left;
+      width: 100%;
+    }
+
+    .footer a, footer a:visited { color: #3C494C; }
+
+    .copy-to-clipboard { /* as small as possible - when hidden, copy will not work */
+      width: 2em;
+      height: 2em;
+      position: fixed;
+      top: 0;
+      left: 0;
+      border: none;
+      outline: none;
+      boxShadow: none;
+    }
+
+    @media (max-width: 500px) {
+      .feature-navigator {
+        position: relative;
+        height: auto;
+        width: 100%;
+        clear: both;
+        overflow: auto;
+      }
+      .report-container {
+        margin-top: 1em;
+        margin-left: auto;
+        width: 100%
+      }
+    }
+  </style>
+  <title>Cucumber Report</title>
+</head>
+<body>
+<div class="feature-navigator">
+  <div class="header">
+    <h1>Cucumber Report</h1>
+    <h2 class="component"></h2>
+  </div>
+
+  <ul class="summary">
+    <li>3 Features</li>
+    <li>3 Scenarios</li>
+    <li>2 Passed scenarios</li>
+    <li>1 Failing scenarios</li>
+    <li>Status <span class="NOK">NOK</span></li>
+  </ul>
+
+  <ul class="feature-list">
+    <li class="failed">
+      <a href="#F_electricity-only---quotes">Electricity Only - Quotes</a>
+      <ul class="scenario-list">
+        <li class="failed"><a href="#S_electricity-only---quotes;electricity-only">Electricity Only</a></li>
+      </ul>
+    </li>
+    <li class="passed">
+      <a href="#F_gas-only---quotes">Gas Only - Quotes</a>
+      <ul class="scenario-list">
+        <li class="passed"><a href="#S_gas-only---quotes;gas-only">Gas Only</a></li>
+      </ul>
+    </li>
+    <li class="passed">
+      <a href="#F_gas-&amp;-electricity---quotes">Gas &amp; Electricity - Quotes</a>
+      <ul class="scenario-list">
+        <li class="passed"><a href="#S_gas-&amp;-electricity---quotes;gas-&amp;-electricity">Gas &amp; Electricity</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="report-container">
+  <div id="piechart" style="width: 750px; height: 300px;"></div>
+  <div class="report" id="F_electricity-only---quotes">
+    <h2>Feature: Electricity Only - Quotes <span class="tags">@smoke</span></h2>
+
+    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Electricity.feature</p>
+
+    <p class="story">As a Compare the Market cutomer
+I want to be able to get quotes for Electricity Only
+So I can comare the quotes and may choose what suits me best</p>
+    <h3 id="S_electricity-only---quotes;electricity-only">
+      Scenario: Electricity Only
+      <span class="scenario-tag">@smoke</span>
+    </h3>
+
+    <table>
+      <tr>
+        <th style="width: 100px;">Condition</th>
+        <th>Step</th>
+        <th style="width: 100px;">Line</th>
+        <th class="duration" style="width: 100px;">Duration</th>
+        <th style="width: 100px;">Status</th>
+      </tr>
+
+      <tr class="passed">
+        <td>Given </td>
+        <td>
+          I am on &quot;Your Supplier&quot; step
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>9</td>
+        <td class="duration">1.90s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>When </td>
+        <td>
+          I choose to compare Electricity
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>10</td>
+        <td class="duration">2.03s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="failed">
+        <td>And </td>
+        <td>
+          I click on &quot;Nextt&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>11</td>
+        <td class="duration">5.05s</td>
+        <td class="status">failed</td>
+      </tr>
+
+      <tr class="hidden failed">
+        <td colspan="5">
+          <pre>AssertionError: element by.cssContainingText(&quot;button&quot;, &quot;Nextt&quot;) not found: expected false to be true
+    at doAsserterAsyncAndAddThen (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai-as-promised\lib\chai-as-promised.js:293:29)
+    at Assertion.&lt;anonymous&gt; (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai-as-promised\lib\chai-as-promised.js:283:21)
+    at Assertion.get (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai\lib\chai\utils\overwriteProperty.js:50:37)
+    at C:\Users\Mahesh\Documents\automated-testng-bgl\build\utils.js:89:50
+    at ManagedPromise.invokeCallback_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1366:14)
+    at TaskQueue.execute_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2970:14)
+    at TaskQueue.executeNext_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2953:27)
+    at asyncRun (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2813:27)
+    at C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:676:7
+    at &lt;anonymous&gt;</pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I enter units &quot;100&quot; for &quot;Electricity&quot;
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>12</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I click on &quot;Next&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>13</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I choose &quot;Fixed tariff&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>14</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I choose &quot;Payment&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>15</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I fill all mandatory fileds
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>16</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>And </td>
+        <td>
+          I click on &quot;Go to prices&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>17</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="skipped">
+        <td>Then </td>
+        <td>
+          I should see supplier recommendations
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>18</td>
+        <td class="duration">0.00s</td>
+        <td class="status">skipped</td>
+      </tr>
+
+      <tr class="hidden skipped">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+
+    </table>
+
+    
+    <img src="Electricity_Only_8.png"/>
+  </div>
+  <div class="report" id="F_gas-only---quotes">
+    <h2>Feature: Gas Only - Quotes <span class="tags">@smoke</span></h2>
+
+    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Gas.feature</p>
+
+    <p class="story">As a Compare the Market cutomer
+I want to be able to get quotes for Gas Only
+So I can comare the quotes and may choose what suits me best</p>
+    <h3 id="S_gas-only---quotes;gas-only">
+      Scenario: Gas Only
+      <span class="scenario-tag">@smoke</span>
+    </h3>
+
+    <table>
+      <tr>
+        <th style="width: 100px;">Condition</th>
+        <th>Step</th>
+        <th style="width: 100px;">Line</th>
+        <th class="duration" style="width: 100px;">Duration</th>
+        <th style="width: 100px;">Status</th>
+      </tr>
+
+      <tr class="passed">
+        <td>Given </td>
+        <td>
+          I am on &quot;Your Supplier&quot; step
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>9</td>
+        <td class="duration">2.31s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>When </td>
+        <td>
+          I choose to compare Gas
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>10</td>
+        <td class="duration">2.08s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I enter units &quot;100&quot; for &quot;Gas&quot;
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>11</td>
+        <td class="duration">1.04s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I click on &quot;Next&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>12</td>
+        <td class="duration">0.19s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I choose &quot;Fixed tariff&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>13</td>
+        <td class="duration">1.78s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I choose &quot;Payment&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>14</td>
+        <td class="duration">0.21s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I fill all mandatory fileds
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>15</td>
+        <td class="duration">0.86s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I click on &quot;Go to prices&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>16</td>
+        <td class="duration">0.25s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>Then </td>
+        <td>
+          I should see supplier recommendations
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>17</td>
+        <td class="duration">3.53s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+
+    </table>
+
+    
+    
+  </div>
+  <div class="report" id="F_gas-&amp;-electricity---quotes">
+    <h2>Feature: Gas &amp; Electricity - Quotes <span class="tags">@smoke</span></h2>
+
+    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Gas&amp;Electricity.feature</p>
+
+    <p class="story">As a Compare the Market cutomer
+I want to be able to get quotes for Gas &amp; Electricity
+So I can comare the quotes and may choose what suits me best</p>
+    <h3 id="S_gas-&amp;-electricity---quotes;gas-&amp;-electricity">
+      Scenario: Gas &amp; Electricity
+      <span class="scenario-tag">@smoke</span>
+    </h3>
+
+    <table>
+      <tr>
+        <th style="width: 100px;">Condition</th>
+        <th>Step</th>
+        <th style="width: 100px;">Line</th>
+        <th class="duration" style="width: 100px;">Duration</th>
+        <th style="width: 100px;">Status</th>
+      </tr>
+
+      <tr class="passed">
+        <td>Given </td>
+        <td>
+          I am on &quot;Your Supplier&quot; step
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>9</td>
+        <td class="duration">7.37s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>When </td>
+        <td>
+          I choose to compare Gas &amp; Electricity
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>10</td>
+        <td class="duration">12.94s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I enter units &quot;100&quot; for &quot;Electricity&quot;
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>11</td>
+        <td class="duration">2.82s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I click on &quot;Next&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>12</td>
+        <td class="duration">5.17s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I enter units &quot;100&quot; for &quot;Gas&quot;
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>13</td>
+        <td class="duration">0.13s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I click on &quot;Next&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>14</td>
+        <td class="duration">5.18s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I choose &quot;Fixed tariff&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>15</td>
+        <td class="duration">6.56s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I choose &quot;Payment&quot; option
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>16</td>
+        <td class="duration">5.22s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I fill all mandatory fileds
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>17</td>
+        <td class="duration">10.69s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>And </td>
+        <td>
+          I click on &quot;Go to prices&quot; button
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>18</td>
+        <td class="duration">5.18s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+      <tr class="passed">
+        <td>Then </td>
+        <td>
+          I should see supplier recommendations
+          <table class="datatable">
+            <!--  -->
+          </table>
+        </td>
+        <td>19</td>
+        <td class="duration">4.70s</td>
+        <td class="status">passed</td>
+      </tr>
+
+      <tr class="hidden passed">
+        <td colspan="5">
+          <pre></pre>
+        </td>
+      </tr>
+
+    </table>
+
+    
+    
+  </div>
+</div>
+
+<script type="text/javascript">
+  (function() {
+    'use strict';
+
+    // Thanks to http://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript/30810322#30810322
+    function copyTextToClipboard(text) {
+      // Puts the supplied text into a hidden text area to select it and copy it the clipboard
+      var textArea = document.createElement("textarea");
+      textArea.class = 'copy-to-clipboard';
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand('copy');
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+
+    var failed = document.getElementsByClassName('failed');
+    for (var i = 0; i < failed.length; i += 1) {
+      if (failed[i].className === 'failed') {
+        failed[i].addEventListener('click', (function(i) {
+          return function() {
+            if (failed[i].nextElementSibling.classList.contains('hidden')) {
+              failed[i].nextElementSibling.classList.remove('hidden');
+            } else {
+              failed[i].nextElementSibling.classList.add('hidden');
+            }
+            copyTextToClipboard(failed[i].nextElementSibling.textContent);
+          }
+        })(i));
+      }
+      else if (failed[i].classList.contains('hidden')) {
+        failed[i].addEventListener('click', (function(i) {
+          return function() {
+            if (failed[i].classList.contains('hidden')) {
+              failed[i].classList.remove('hidden');
+            } else {
+              failed[i].classList.add('hidden');
+            }
+          }
+        })(i));
+      }
+    }
+  })(window);
+</script>
+</body>
+</html>
