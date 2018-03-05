@@ -1,3 +1,4 @@
+The Packages and Languages used in the framework are Protractor, Cucumber.js, Chai, TypeScript, Node.js and NPM. 
 Ensure that chrome browser is updated to the latest before running the webdriver.
 Install latest version of Node.js, this should install both node and npm.  
 To check versions run 'node -v' and 'npm -v' from the command line.
@@ -9,7 +10,8 @@ To install required dependencies
 Update all webdriver versions
 # npm run update
 
-Start the webdriver server (may require Java installed, is so install Java and include java path in env. variables)
+Please keep in mind, that selenium server should be running seperately in the background for Protractor tests. 
+To start the selenium server (may require Java installed, is so install Java and include java path in env. variables)
 # npm run selenium
 
 In seperate terminal to run the tests, this will compile and run the web-smoke.js file
