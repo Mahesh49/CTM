@@ -1,7 +1,7 @@
 Ensure that chrome browser is updated to the latest before running the webdriver.
 Install latest version of Node.js, this should install both node and npm.  
-To check versions run 'node -v' and 'npm -v'
-Navigate to the parent directory and run the following commands to run the tests
+To check versions run 'node -v' and 'npm -v' from the command line.
+Navigate to the parent directory and run the following commands to run the tests.
 
 To install required dependencies 
 # npm install
@@ -16,4 +16,4 @@ In seperate terminal to run the tests, this will compile and run the web-smoke.j
 # npm ctm
 
 
-Report, and Screenshots for any failed tests will be available in reports/ folder
+Report, and Screenshots for any failed tests will be available in reports/ folder. Happy to answer any questions.
