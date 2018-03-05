@@ -1,8 +1,9 @@
 The Packages and Languages used in the framework are Protractor, Cucumber.js, Chai, TypeScript, Node.js and NPM. 
+
 Ensure that chrome browser is updated to the latest before running the webdriver.
 Install latest version of Node.js, this should install both node and npm.  
-To check versions run 'node -v' and 'npm -v' from the command line.
-Navigate to the parent directory and run the following commands to run the tests.
+To check versions of Node and NPM,  run 'node -v' and 'npm -v' from the command line.
+To run the tests navigate to the parent directory and run the following commands.
 
 To install required dependencies 
 # npm install
