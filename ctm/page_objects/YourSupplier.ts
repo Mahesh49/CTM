@@ -3,7 +3,7 @@ import { element, by } from 'protractor';
 
 export class YourSupplier extends CommonPage {
 
-    private postcodeElement = "input";
+    private postcodeField = "input";
     public postcodeButton = "Find postcode";
     public postcode = "PE2 6YS";
     public comapareGasElectricity = ".energy-gas-electricity";
@@ -11,6 +11,6 @@ export class YourSupplier extends CommonPage {
     public comapareElectricity = ".energy-electricity";
 
     public setPostcode(){
-        return element(by.css(this.postcodeElement));
+        return element(by.css(this.postcodeField));
     }
 }

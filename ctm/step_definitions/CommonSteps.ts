@@ -1,8 +1,5 @@
-import { binding, given, then, when, before, after } from "cucumber-tsflow";
-import { browser, by, element, protractor } from "protractor";
-let chai = require("chai").use(require("chai-as-promised"));
-let expect = chai.expect;
-import { Utils } from "../../utils";
+import { binding, before, after } from "cucumber-tsflow";
+import { Utils } from "../../utils/utils";
 
 @binding()
 class CommonSteps {
@@ -10,7 +7,6 @@ class CommonSteps {
 
     @before()
     public beforeEachScenario(scen, callback: Function): void {
-        this.utils = new Utils();
         this.utils.init().then(callback);
     }
 

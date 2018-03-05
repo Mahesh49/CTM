@@ -19,9 +19,8 @@ So I can comare the quotes and may choose what suits me best
     Then I should see supplier recommendations
 
 # @smoke
-#  Scenario: Gas & Electricity2
+#  Scenario: Gas & Electricity
 #     Given I am on "Your Supplier" step
 #     When I choose to compare Gas & Electricity
 #     And I enter all required fileds
-#     Then I should see results in "Your Results" step 
-
+#     Then I should see results in "Your Results" step

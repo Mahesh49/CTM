@@ -1,5 +1,5 @@
 import { browser, protractor, $, element, by, ElementFinder, ElementHelper, ElementArrayFinder, WebElementPromise } from 'protractor';
-import { Screenshot } from './utils/screenshot';
+import { Screenshot } from './screenshot';
 let chai = require('chai').use(require('chai-as-promised'));
 let expect = chai.expect;
 

@@ -1,8 +1,6 @@
-import { binding, given, then, when, before } from "cucumber-tsflow";
-import { browser, by, $, element, protractor } from "protractor";
-let chai = require("chai").use(require("chai-as-promised"));
-let expect = chai.expect;
-import { Utils } from "../../utils";
+import { binding, given } from "cucumber-tsflow";
+import { browser, $, protractor } from "protractor";
+import { Utils } from "../../utils/utils";
 import { YourSupplier } from "../page_objects/YourSupplier";
 let EC = protractor.ExpectedConditions;
 

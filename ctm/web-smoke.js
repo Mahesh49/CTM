@@ -18,7 +18,6 @@ exports.config = {
         chromeOptions: {
             args: [
                 '--start-maximized',
-                'user-agent=RegressionTest'
             ]
         }
     },

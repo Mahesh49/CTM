@@ -1,10 +1,10 @@
 {
-  "name": "automated-testing-bgl",
+  "name": "ctm-automation",
   "version": "1.0.0",
   "description": "This repo contains the automated testing for ctm",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mahesh49/Bgl.git"
+    "url": "git://git@github.com:Mahesh49/CTM.git"
   },
   "dependencies": {
     "chai": "^4.1.2",
@@ -19,7 +19,7 @@
     "typescript": "2.6.2"
   },
   "scripts": {
-    "web-smoke:ctm": "tsc && protractor ./ctm/web-smoke.js",
+    "ctm": "tsc && protractor ./ctm/web-smoke.js",
     "selenium": "webdriver-manager start",
     "update": "webdriver-manager update",
     "clean": "webdriver-manager clean"

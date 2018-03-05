@@ -10,8 +10,8 @@
 
         var data = google.visualization.arrayToDataTable([
           ['Result', 'Number of scenarios'],
-          ['Failed',  1],
-          ['Passed',  2],
+          ['Failed',  0],
+          ['Passed',  3],
         ]);
 
         var options = {
@@ -241,16 +241,16 @@
   <ul class="summary">
     <li>3 Features</li>
     <li>3 Scenarios</li>
-    <li>2 Passed scenarios</li>
-    <li>1 Failing scenarios</li>
-    <li>Status <span class="NOK">NOK</span></li>
+    <li>3 Passed scenarios</li>
+    <li>0 Failing scenarios</li>
+    <li>Status <span class="OK">OK</span></li>
   </ul>
 
   <ul class="feature-list">
-    <li class="failed">
+    <li class="passed">
       <a href="#F_electricity-only---quotes">Electricity Only - Quotes</a>
       <ul class="scenario-list">
-        <li class="failed"><a href="#S_electricity-only---quotes;electricity-only">Electricity Only</a></li>
+        <li class="passed"><a href="#S_electricity-only---quotes;electricity-only">Electricity Only</a></li>
       </ul>
     </li>
     <li class="passed">
@@ -273,7 +273,7 @@
   <div class="report" id="F_electricity-only---quotes">
     <h2>Feature: Electricity Only - Quotes <span class="tags">@smoke</span></h2>
 
-    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Electricity.feature</p>
+    <p class="filename">C:\Users\Mahesh\Documents\CtM-automation\ctm\features\Electricity.feature</p>
 
     <p class="story">As a Compare the Market cutomer
 I want to be able to get quotes for Electricity Only
@@ -301,7 +301,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>9</td>
-        <td class="duration">1.90s</td>
+        <td class="duration">2.14s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -319,7 +319,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>10</td>
-        <td class="duration">2.03s</td>
+        <td class="duration">1.75s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -328,35 +328,25 @@ So I can comare the quotes and may choose what suits me best</p>
           <pre></pre>
         </td>
       </tr>
-      <tr class="failed">
+      <tr class="passed">
         <td>And </td>
         <td>
-          I click on &quot;Nextt&quot; button
+          I click on &quot;Next&quot; button
           <table class="datatable">
             <!--  -->
           </table>
         </td>
         <td>11</td>
-        <td class="duration">5.05s</td>
-        <td class="status">failed</td>
+        <td class="duration">1.13s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden failed">
+      <tr class="hidden passed">
         <td colspan="5">
-          <pre>AssertionError: element by.cssContainingText(&quot;button&quot;, &quot;Nextt&quot;) not found: expected false to be true
-    at doAsserterAsyncAndAddThen (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai-as-promised\lib\chai-as-promised.js:293:29)
-    at Assertion.&lt;anonymous&gt; (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai-as-promised\lib\chai-as-promised.js:283:21)
-    at Assertion.get (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\chai\lib\chai\utils\overwriteProperty.js:50:37)
-    at C:\Users\Mahesh\Documents\automated-testng-bgl\build\utils.js:89:50
-    at ManagedPromise.invokeCallback_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:1366:14)
-    at TaskQueue.execute_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2970:14)
-    at TaskQueue.executeNext_ (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2953:27)
-    at asyncRun (C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:2813:27)
-    at C:\Users\Mahesh\Documents\automated-testng-bgl\node_modules\protractor\node_modules\selenium-webdriver\lib\promise.js:676:7
-    at &lt;anonymous&gt;</pre>
+          <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I enter units &quot;100&quot; for &quot;Electricity&quot;
@@ -365,16 +355,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>12</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">0.20s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I click on &quot;Next&quot; button
@@ -383,16 +373,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>13</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">0.19s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I choose &quot;Fixed tariff&quot; option
@@ -401,16 +391,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>14</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">1.33s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I choose &quot;Payment&quot; option
@@ -419,16 +409,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>15</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">0.20s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I fill all mandatory fileds
@@ -437,16 +427,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>16</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">0.88s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>And </td>
         <td>
           I click on &quot;Go to prices&quot; button
@@ -455,16 +445,16 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>17</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">0.19s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
       </tr>
-      <tr class="skipped">
+      <tr class="passed">
         <td>Then </td>
         <td>
           I should see supplier recommendations
@@ -473,11 +463,11 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>18</td>
-        <td class="duration">0.00s</td>
-        <td class="status">skipped</td>
+        <td class="duration">5.45s</td>
+        <td class="status">passed</td>
       </tr>
 
-      <tr class="hidden skipped">
+      <tr class="hidden passed">
         <td colspan="5">
           <pre></pre>
         </td>
@@ -486,12 +476,12 @@ So I can comare the quotes and may choose what suits me best</p>
     </table>
 
     
-    <img src="Electricity_Only_8.png"/>
+    
   </div>
   <div class="report" id="F_gas-only---quotes">
     <h2>Feature: Gas Only - Quotes <span class="tags">@smoke</span></h2>
 
-    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Gas.feature</p>
+    <p class="filename">C:\Users\Mahesh\Documents\CtM-automation\ctm\features\Gas.feature</p>
 
     <p class="story">As a Compare the Market cutomer
 I want to be able to get quotes for Gas Only
@@ -519,7 +509,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>9</td>
-        <td class="duration">2.31s</td>
+        <td class="duration">2.56s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -537,7 +527,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>10</td>
-        <td class="duration">2.08s</td>
+        <td class="duration">1.76s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -555,7 +545,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>11</td>
-        <td class="duration">1.04s</td>
+        <td class="duration">1.02s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -573,7 +563,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>12</td>
-        <td class="duration">0.19s</td>
+        <td class="duration">0.18s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -591,7 +581,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>13</td>
-        <td class="duration">1.78s</td>
+        <td class="duration">2.14s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -609,7 +599,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>14</td>
-        <td class="duration">0.21s</td>
+        <td class="duration">0.22s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -627,7 +617,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>15</td>
-        <td class="duration">0.86s</td>
+        <td class="duration">0.93s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -645,7 +635,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>16</td>
-        <td class="duration">0.25s</td>
+        <td class="duration">0.22s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -663,7 +653,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>17</td>
-        <td class="duration">3.53s</td>
+        <td class="duration">4.55s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -681,7 +671,7 @@ So I can comare the quotes and may choose what suits me best</p>
   <div class="report" id="F_gas-&amp;-electricity---quotes">
     <h2>Feature: Gas &amp; Electricity - Quotes <span class="tags">@smoke</span></h2>
 
-    <p class="filename">C:\Users\Mahesh\Documents\automated-testng-bgl\ctm\features\Gas&amp;Electricity.feature</p>
+    <p class="filename">C:\Users\Mahesh\Documents\CtM-automation\ctm\features\Gas&amp;Electricity.feature</p>
 
     <p class="story">As a Compare the Market cutomer
 I want to be able to get quotes for Gas &amp; Electricity
@@ -709,7 +699,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>9</td>
-        <td class="duration">7.37s</td>
+        <td class="duration">2.42s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -727,7 +717,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>10</td>
-        <td class="duration">12.94s</td>
+        <td class="duration">2.11s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -745,7 +735,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>11</td>
-        <td class="duration">2.82s</td>
+        <td class="duration">0.79s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -763,7 +753,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>12</td>
-        <td class="duration">5.17s</td>
+        <td class="duration">0.17s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -781,7 +771,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>13</td>
-        <td class="duration">0.13s</td>
+        <td class="duration">0.20s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -799,7 +789,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>14</td>
-        <td class="duration">5.18s</td>
+        <td class="duration">0.22s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -817,7 +807,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>15</td>
-        <td class="duration">6.56s</td>
+        <td class="duration">2.15s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -835,7 +825,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>16</td>
-        <td class="duration">5.22s</td>
+        <td class="duration">0.21s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -853,7 +843,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>17</td>
-        <td class="duration">10.69s</td>
+        <td class="duration">0.90s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -871,7 +861,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>18</td>
-        <td class="duration">5.18s</td>
+        <td class="duration">0.17s</td>
         <td class="status">passed</td>
       </tr>
 
@@ -889,7 +879,7 @@ So I can comare the quotes and may choose what suits me best</p>
           </table>
         </td>
         <td>19</td>
-        <td class="duration">4.70s</td>
+        <td class="duration">6.48s</td>
         <td class="status">passed</td>
       </tr>
 
